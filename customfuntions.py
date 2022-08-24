@@ -1,5 +1,13 @@
 squaresize = 70
 
+def getobj(x,y,color):
+    obj = {
+        "x":x,
+        "y":y,
+        "color":color
+    }
+    print(obj)
+    return obj
 def gettargetareasofsoldier(question,answer,direction,data,alltroops):
     newli = []
     if question==answer:
@@ -17,11 +25,3 @@ def gettargetareasofsoldier(question,answer,direction,data,alltroops):
 
 def searchcollision():
     pass
-
-def getobj(x,y,color):
-    obj = {
-        "x":x,
-        "y":y,
-        "color":color
-    }
-    return obj

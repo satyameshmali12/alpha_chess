@@ -88,69 +88,82 @@ def gameloop():
     targettroop = None
 
     while True:
-        for e in pygame.event.get():
-            if e.type == pygame.QUIT:
-                quit()
-            if e.type == pygame.MOUSEBUTTONDOWN:
-                moux,mouy = pygame.mouse.get_pos()
-                running = False
-                for index,data in enumerate(targetareas):
-                    if abs(data["x"]+squaresize/2-moux)<squaresize/2 and abs(data["y"]+squaresize/2-mouy)<squaresize/2:
-                        alltrops[targettroop].update({
-                            "x":data["x"],
-                            "y":data["y"]
-                        })
-                        running = True
-                        break
-                targetareas.clear()
-                if not running:
-                    for index,data in enumerate(alltrops):
+        # try:
+            for e in pygame.event.get():
+                if e.type == pygame.QUIT:
+                    quit()
+                if e.type == pygame.MOUSEBUTTONDOWN:
+                    moux,mouy = pygame.mouse.get_pos()
+                    running = False
+                    for index,data in enumerate(targetareas):
                         if abs(data["x"]+squaresize/2-moux)<squaresize/2 and abs(data["y"]+squaresize/2-mouy)<squaresize/2:
-                            # setting the target troop
-                            targettroop = index
-                            print(index)
+                            alltrops[targettroop].update({
+                                "x":data["x"],
+                                "y":data["y"]
+                            })
+                            running = True
+                            break
+                    targetareas.clear()
+                    if not running:
+                        for index,data in enumerate(alltrops):
+                            if abs(data["x"]+squaresize/2-moux)<squaresize/2 and abs(data["y"]+squaresize/2-mouy)<squaresize/2:
+                                # setting the target troop
+                                targettroop = index
 
-                            for index2,data2 in enumerate(boxco):
+                                for index2,data2 in enumerate(boxco):
 
-                                if abs(data2["x"]+squaresize/2-moux)<squaresize/2 and abs(data2["y"]+squaresize/2-mouy)<squaresize/2:
+                                    if abs(data2["x"]+squaresize/2-moux)<squaresize/2 and abs(data2["y"]+squaresize/2-mouy)<squaresize/2:
 
-                                    # if white troops player turn then it will be executed
-                                    if turn == "whiteplayer": 
+                                        # if white troops player turn then it will be executed
+                                        if turn == "whiteplayer": 
 
-                                        if data["name"]==whitesoldier:
-                                            color = "orange"
-                                            for i in range(3):
-                                                obj = getobj(data2["x"],data["y"]-i*squaresize,color)
-                                                targetareas.append(obj)
-                                                # alternating the color
-                                                color = "orange" if not color=="orange" else "pink"
-                                            for index3,data3 in enumerate(alltrops):
-                                                if not data3["type"]=="white" and abs(data2["y"]-squaresize)==data3["y"]:
-                                                    if abs(data2["x"]-squaresize)==data3["x"]:
-                                                        targetareas.append(getobj(data3["x"],data3[y],"blue"))
-                                                    elif abs(data2["x"]+squaresize)==data3["x"]:
-                                                        targetareas.append(getobj(data3["x"],data3[y],"blue"))
+                                            if data["name"]==whitesoldier:
+                                                color = "orange"
+                                                for i in range(3):
+                                                    
+                                                    obj = getobj(data2["x"],data["y"]-i*squaresize,color)
+                                                    print(obj)
+                                                    targetareas.append(obj)
+                                                    # alternating the color
+                                                    color = "orange" if not color=="orange" else "pink"
+                                                for index3,data3 in enumerate(alltrops):
+                                                    if not data3["type"]=="white" and abs(data2["y"]-squaresize)==data3["y"]:
+                                                        if abs(data2["x"]-squaresize)==data3["x"]:
+                                                            obj = {
+                                                                "x":data3["x"],
+                                                                "y":data3["y"],
+                                                                "color":"blue"
+                                                            }
+                                                            targetareas.append(obj)
+                                                        elif abs(data2["x"]+squaresize)==data3["x"]:
+                                                            obj = {
+                                                                "x":data3["x"],
+                                                                "y":data3["y"],
+                                                                "color":"blue"
+                                                            }
+                                                            targetareas.append(obj)
+
+                                            # turn = "blackplayer"
 
 
-                                        turn = "blackplayer"
+            display.fill("white")
+
+            # drawing the chess board
+            drawrect(display,"black",17,17,width-34,height-34,3)
+            for index,data in enumerate(boxco):
+                drawrect(display,data["color"],data["x"],data["y"],squaresize,squaresize)
+            # displaying the target areas                               :- displayed over the chess board and below the troops
+            for index,data in enumerate(targetareas):
+                drawrect(display,data["color"],data["x"],data["y"],squaresize,squaresize)
 
 
-        display.fill("white")
+            # displaying all the troops
+            for index,data in enumerate(alltrops):
+                displayimage(display,data["name"],data["x"],data["y"])
 
-        # drawing the chess board
-        drawrect(display,"black",17,17,width-34,height-34,3)
-        for index,data in enumerate(boxco):
-            drawrect(display,data["color"],data["x"],data["y"],squaresize,squaresize)
-        # displaying the target areas                               :- displayed over the chess board and below the troops
-        for index,data in enumerate(targetareas):
-            drawrect(display,data["color"],data["x"],data["y"],squaresize,squaresize)
-
-
-        # displaying all the troops
-        for index,data in enumerate(alltrops):
-            displayimage(display,data["name"],data["x"],data["y"])
-
-        pygame.display.update()
+            pygame.display.update()
+        # except Exception as e:
+        #     print(e)
 
 gameloop()
 
