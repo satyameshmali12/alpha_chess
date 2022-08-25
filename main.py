@@ -125,9 +125,14 @@ def gameloop():
                                                 color = "orange"
                                                 targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
                                             if data["name"]==blacksoldier:
-                                                targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"black","soldier","down")
+                                                targetareas = junction(index,boxco,alltrops,True,False,0,3,0,0,True,1,"black","soldier","down")
                                             if data["name"]==whiteelephant:
-                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,0,0,True,1,"white","elephant","up")
+                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                            if data["name"]==whitequeen:
+                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                            if data["name"]==whiteking:
+                                                targetareas = junction(index,boxco,alltrops,True,True,2,2,2,2,True,1,"white","elephant","up")
+
                                                 
 
 
