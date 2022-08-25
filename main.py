@@ -77,6 +77,8 @@ for index,data in enumerate([blacktroops,whitetroops]):
 # first turn will be of the white player :- as in the usual scanerio
 turn = "whiteplayer"
 
+# alltrops.remove(alltrops[31])
+
 
 def gameloop():
 
@@ -109,6 +111,7 @@ def gameloop():
                             if abs(data["x"]+squaresize/2-moux)<squaresize/2 and abs(data["y"]+squaresize/2-mouy)<squaresize/2:
                                 # setting the target troop
                                 targettroop = index
+                                # print(index)
 
                                 # boxco is nothing but the all the boxes present on the screen and there color is changed on every click and the movement is alse done with the help of the boxco variable only 🆘
                                 for index2,data2 in enumerate(boxco):
@@ -120,32 +123,12 @@ def gameloop():
 
                                             if data["name"]==whitesoldier:
                                                 color = "orange"
-                                                
                                                 targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
-                                                # junction()
-
-                                                # for i in range(3):
-                                                #     obj = getobj(data2["x"],data["y"]-i*squaresize,color)
-                                                #     print(obj)
-                                                #     targetareas.append(obj)
-                                                #     # alternating the color
-                                                #     color = "orange" if not color=="orange" else "pink"
-                                                # for index3,data3 in enumerate(alltrops):
-                                                #     if not data3["type"]=="white" and abs(data2["y"]-squaresize)==data3["y"]:
-                                                #         if abs(data2["x"]-squaresize)==data3["x"]:
-                                                #             obj = {
-                                                #                 "x":data3["x"],
-                                                #                 "y":data3["y"],
-                                                #                 "color":"blue"
-                                                #             }
-                                                #             targetareas.append(obj)
-                                                #         elif abs(data2["x"]+squaresize)==data3["x"]:
-                                                #             obj = {
-                                                #                 "x":data3["x"],
-                                                #                 "y":data3["y"],
-                                                #                 "color":"blue"
-                                                #             }
-                                                #             targetareas.append(obj)
+                                            if data["name"]==blacksoldier:
+                                                targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"black","soldier","down")
+                                            if data["name"]==whiteelephant:
+                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,0,0,True,1,"white","elephant","up")
+                                                
 
 
             display.fill("white")
@@ -163,6 +146,8 @@ def gameloop():
             for index,data in enumerate(alltrops):
                 displayimage(display,data["name"],data["x"],data["y"])
 
+
+            drawrect(display,"red",10,600-50,10,10,0)
             pygame.display.update()
         # except Exception as e:
         #     print(e)
