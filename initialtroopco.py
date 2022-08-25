@@ -7,7 +7,8 @@ def initialtroopco_ordinates(troopsline,inix,iniy,squaresize,isincrement,troopim
             "x":x,
             "y":y,
             "name":data,
-            "type":type
+            "type":type,
+            "firstmove":True
         }
         troops.append(obj)
         x+=squaresize
@@ -22,7 +23,8 @@ def initialtroopco_ordinates(troopsline,inix,iniy,squaresize,isincrement,troopim
             "x":x,
             "y":y,
             "name":troopimg,
-            "type":type
+            "type":type,
+            "firstmove":True
         }
         troops.append(obj)
 

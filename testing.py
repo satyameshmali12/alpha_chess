@@ -1,4 +1,7 @@
-li = ["kjfd",343]
-li[1]="kdjfk"
-li[0]="2"
-print(li)
+def returningfunc():
+    return 2,3
+
+
+c,d = returningfunc()
+
+print(c,d)
