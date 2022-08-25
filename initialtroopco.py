@@ -32,3 +32,24 @@ def initialtroopco_ordinates(troopsline,inix,iniy,squaresize,isincrement,troopim
 
 
 # print(initialtroopco_ordinates())
+
+
+# 🔺 later on remove this down function as it is kept just for the purpose of the reference
+# def gettargetareasofsoldier(question,answer,direction,data,alltroops):
+#     newli = []
+#     if question==answer:
+#             color = "orange"
+#             for i in range(3):
+#                 obj = {
+#                     "x":data["x"],
+#                     "y":data["y"]-i*squaresize,
+#                     "color":color
+#                 }
+#                 newli.append(obj)
+#                 color = "orange" if not color=="orange" else "pink"
+            
+#     return newli
+
+# def searchcollision():
+#     pass
+

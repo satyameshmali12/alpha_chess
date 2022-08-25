@@ -3,7 +3,7 @@ import sys # to exit the game
 # custom imports
 from functions import displayimage, drawrect,loadimage
 from initialtroopco import initialtroopco_ordinates
-from customfuntions import getobj
+from customfuntions import getobj,junction
 
 pygame.init() # initializing the window
 
@@ -110,6 +110,7 @@ def gameloop():
                                 # setting the target troop
                                 targettroop = index
 
+                                # boxco is nothing but the all the boxes present on the screen and there color is changed on every click and the movement is alse done with the help of the boxco variable only 🆘
                                 for index2,data2 in enumerate(boxco):
 
                                     if abs(data2["x"]+squaresize/2-moux)<squaresize/2 and abs(data2["y"]+squaresize/2-mouy)<squaresize/2:
@@ -119,31 +120,32 @@ def gameloop():
 
                                             if data["name"]==whitesoldier:
                                                 color = "orange"
-                                                for i in range(3):
-                                                    
-                                                    obj = getobj(data2["x"],data["y"]-i*squaresize,color)
-                                                    print(obj)
-                                                    targetareas.append(obj)
-                                                    # alternating the color
-                                                    color = "orange" if not color=="orange" else "pink"
-                                                for index3,data3 in enumerate(alltrops):
-                                                    if not data3["type"]=="white" and abs(data2["y"]-squaresize)==data3["y"]:
-                                                        if abs(data2["x"]-squaresize)==data3["x"]:
-                                                            obj = {
-                                                                "x":data3["x"],
-                                                                "y":data3["y"],
-                                                                "color":"blue"
-                                                            }
-                                                            targetareas.append(obj)
-                                                        elif abs(data2["x"]+squaresize)==data3["x"]:
-                                                            obj = {
-                                                                "x":data3["x"],
-                                                                "y":data3["y"],
-                                                                "color":"blue"
-                                                            }
-                                                            targetareas.append(obj)
+                                                
+                                                targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
+                                                # junction()
 
-                                            # turn = "blackplayer"
+                                                # for i in range(3):
+                                                #     obj = getobj(data2["x"],data["y"]-i*squaresize,color)
+                                                #     print(obj)
+                                                #     targetareas.append(obj)
+                                                #     # alternating the color
+                                                #     color = "orange" if not color=="orange" else "pink"
+                                                # for index3,data3 in enumerate(alltrops):
+                                                #     if not data3["type"]=="white" and abs(data2["y"]-squaresize)==data3["y"]:
+                                                #         if abs(data2["x"]-squaresize)==data3["x"]:
+                                                #             obj = {
+                                                #                 "x":data3["x"],
+                                                #                 "y":data3["y"],
+                                                #                 "color":"blue"
+                                                #             }
+                                                #             targetareas.append(obj)
+                                                #         elif abs(data2["x"]+squaresize)==data3["x"]:
+                                                #             obj = {
+                                                #                 "x":data3["x"],
+                                                #                 "y":data3["y"],
+                                                #                 "color":"blue"
+                                                #             }
+                                                #             targetareas.append(obj)
 
 
             display.fill("white")
