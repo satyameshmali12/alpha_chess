@@ -106,6 +106,7 @@ def gameloop():
                                 "y":data["y"]
                             })
                             running = True
+                            customs.checkcollision(targettroop,alltrops)
                             break
                     targetareas.clear()
                     if not running:
@@ -124,16 +125,17 @@ def gameloop():
                                         if turn == "whiteplayer": 
 
                                             if data["name"]==whitesoldier:
-                                                color = "orange"
-                                                targetareas = customs.junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,False,3,0,0,0,True,[0,0,0,0],"white","soldier","up")
                                             if data["name"]==blacksoldier:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,False,0,3,0,0,True,1,"black","soldier","down")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,False,0,3,0,0,True,[0,0,0,0],"black","soldier","down")
                                             if data["name"]==whiteelephant:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[0,0,0,0],"white","elephant","up")
                                             if data["name"]==whitequeen:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[4,4,4,4],"white","elephant","up")
                                             if data["name"]==whiteking:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,True,2,2,2,2,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,2,2,2,2,True,[0,0,0,0],"white","elephant","up")
+                                            if data["name"]==whitecamel:
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,0,0,0,0,True,[8,8,8,8],"white","elephant","up")
 
                                                 
 
