@@ -3,7 +3,8 @@ import sys # to exit the game
 # custom imports
 from functions import displayimage, drawrect,loadimage
 from initialtroopco import initialtroopco_ordinates
-from customfuntions import getobj,junction
+# from customfuntions import getobj,junction
+from customfuntions import chess
 
 pygame.init() # initializing the window
 
@@ -88,6 +89,7 @@ def gameloop():
 
     targetareas = []
     targettroop = None
+    customs = chess()
 
     while True:
         # try:
@@ -123,15 +125,15 @@ def gameloop():
 
                                             if data["name"]==whitesoldier:
                                                 color = "orange"
-                                                targetareas = junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,False,3,0,0,0,True,1,"white","soldier","up")
                                             if data["name"]==blacksoldier:
-                                                targetareas = junction(index,boxco,alltrops,True,False,0,3,0,0,True,1,"black","soldier","down")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,False,0,3,0,0,True,1,"black","soldier","down")
                                             if data["name"]==whiteelephant:
-                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
                                             if data["name"]==whitequeen:
-                                                targetareas = junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,1,"white","elephant","up")
                                             if data["name"]==whiteking:
-                                                targetareas = junction(index,boxco,alltrops,True,True,2,2,2,2,True,1,"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,2,2,2,2,True,1,"white","elephant","up")
 
                                                 
 
