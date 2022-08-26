@@ -109,6 +109,7 @@ def gameloop():
                                     "y":data["y"]
                                 })
                                 if alltrops[targettroop]["firstmove"]:alltrops[targettroop].update({"firstmove":False})
+                                turn="whiteplayer" if turn=="blackplayer" else "blackplayer"
                                 running = True
                                 removalinex = customs.checkcollision(targettroop,alltrops)
                                 removalinex and alltrops.remove(alltrops[removalinex])
@@ -139,7 +140,7 @@ def gameloop():
                                             elif data["name"]==whiteelephant:
                                                 targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[0,0,0,0],"white","elephant","up")
                                             elif data["name"]==whitequeen:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[4,4,4,4],"white","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[8,8,8,8],"white","elephant","up")
                                             elif data["name"]==whiteking:
                                                 targetareas = customs.junction(index,boxco,alltrops,True,True,2,2,2,2,True,[2,2,2,2],"white","elephant","up")
                                             elif data["name"]==whitecamel:
@@ -148,18 +149,24 @@ def gameloop():
                                             elif data["name"]==whitehorse:
                                                 targetareas = customs.horsetargetarea(alltrops,index,"black")
 
-                                            elif data["name"]==blacksoldier:
+                                            
+                                        if turn=="blackplayer":
+                                            if data["name"]==blacksoldier:
                                                 cross1,cross2 = customs.issoldiercrossavai(alltrops,"white",data["x"],data["y"],2,2,"down")
                                                 targetareas = customs.junction(index,boxco,alltrops,True,False,0,3 if data["firstmove"] else 2,0,0,True,[0,0,cross1,cross2],"black","soldier","down")
                                             
                                             elif data["name"]==blackelephant:
                                                 targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[0,0,0,0],"black","elephant","up")
                                             elif data["name"]==blackqueen:
-                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[4,4,4,4],"black","elephant","up")
+                                                targetareas = customs.junction(index,boxco,alltrops,True,True,8,8,8,8,True,[8,8,8,8],"black","elephant","up")
                                             elif data["name"]==blackking:
                                                 targetareas = customs.junction(index,boxco,alltrops,True,True,2,2,2,2,True,[2,2,2,2],"black","elephant","up")
                                             elif data["name"]==blackcamel:
                                                 targetareas = customs.junction(index,boxco,alltrops,True,True,0,0,0,0,True,[8,8,8,8],"black","elephant","up")
+                                            elif data["name"]==blackhorse:
+                                                targetareas = customs.horsetargetarea(alltrops,index,"white")
+
+
                                                 
 
 

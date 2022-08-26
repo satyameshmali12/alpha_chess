@@ -62,16 +62,12 @@ class chess:
         co_arr.append([x,y,"red"])
         num1 = 1
         num2 = 2
-
-        # for i in range(8):
-        #     if i == 4:
-        #         num1 = 2
-        #         num2 = 1
-
-        for i in range(4):
+        for i in range(8):
             if i==4:
                 num1 = 2
                 num2 = 1
+            if i>3:
+                i-=4
 
             innerexecuted = False
             count = i
@@ -79,7 +75,7 @@ class chess:
                 count-3
             x = troopslist[index]["x"]-num1*self.squaresize if i==0 or i==2 else  troopslist[index]["x"]+num1*self.squaresize
             y = troopslist[index]["y"]-num2*self.squaresize if i ==0 or i==1 else troopslist[index]["y"]+num2*self.squaresize
-# 
+            
             for index1,data in enumerate(troopslist):
                 if data["x"]==x and data["y"]==y:
                     innerexecuted = True
@@ -87,21 +83,6 @@ class chess:
                     if hastoadd:
                         self.satifycondition(x,y) and co_arr.append([x,y,"red"])
             not innerexecuted and self.satifycondition(x,y) and co_arr.append([x,y,"red"])
-
-#         for i in range(4):
-#             num1 = 2
-#             num2 = 1
-#             innerexecuted = False
-#             x = troopslist[index]["x"]-num1*self.squaresize if i==0 or i==2 else  troopslist[index]["x"]+num1*self.squaresize
-#             y = troopslist[index]["y"]-num2*self.squaresize if i ==0 or i==1 else troopslist[index]["y"]+num2*self.squaresize
-# # 
-#             for index1,data in enumerate(troopslist):
-#                 if data["x"]==x and data["y"]==y:
-#                     innerexecuted = True
-#                     hastoadd = True if data["type"]==opponenttype else False
-#                     if hastoadd:
-#                         self.satifycondition(x,y) and co_arr.append([x,y,"red"])
-#             not innerexecuted and self.satifycondition(x,y) and co_arr.append([x,y,"red"])
 
 
             
