@@ -1,7 +1,4 @@
-def returningfunc():
-    return 2,3
+i = 0
 
-
-c,d = returningfunc()
-
-print(c,d)
+if not i==None:
+    print("hey there")

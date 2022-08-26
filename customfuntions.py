@@ -49,10 +49,8 @@ class chess:
     def givetargetareas(self,co_arr):
         targetareas = []
         for index,data in enumerate(co_arr):
-            print(data[2])
             obj = self.getobj(data[0],data[1],data[2])
             targetareas.append(obj)
-        # print(targetareas)
         return targetareas
     
     def horsetargetarea(self,troopslist,index,opponenttype):
@@ -99,6 +97,10 @@ class chess:
         targetareas = []
         co_arr = []
         co_arr.append([alltrops[index]["x"],alltrops[index]["y"],"red"])
+        
+        # many colors are taken to avoid the collision of the two colors together  while displaying on the screen
+        colorli = ["green","yellow","orange","purple","blue","pink","gray","violet",(53, 219, 158),(1, 20, 89),(255, 55, 5),(230, 69, 98),(187, 230, 69),(133, 138, 120),(237, 255, 189),(17, 133, 38)]
+        colornum = 0
         color="green"
         direction = [forward,backward,leftward,rightward]
         
@@ -106,7 +108,6 @@ class chess:
         isdirection = [True,True,True,True]
 
         for num,dir in enumerate(direction):
-            print(dir)
             for i in range(dir):
                 if isdirection[num]:
                     x = alltrops[index]["x"] if num==0 or num==1 else alltrops[index]["x"]-i*self.squaresize if not num==3 else alltrops[index]["x"]+i*self.squaresize
@@ -122,14 +123,18 @@ class chess:
                                         isdirection[num]=False
                                     else:
                                         if isstraighthitpossible:
-                                            co_arr.append([x,y,color])
-                                            color = "green" if color=="yellow" else "yellow"
+                                            if colornum>len(colorli)-1:
+                                                colornum=0
+                                            co_arr.append([x,y,colorli[colornum]])
+                                            colornum+=1
                                             isdirection[num]=False
                                         else:
                                             isdirection[num]=False
                             if not innerexecuted:
-                                co_arr.append([x,y,color])
-                                color = "green" if color=="yellow" else "yellow"
+                                if colornum>len(colorli)-1:
+                                    colornum=0
+                                co_arr.append([x,y,colorli[colornum]])
+                                colornum+=1
         
 
         iscrossdirection = [True,True,True,True]
@@ -149,14 +154,18 @@ class chess:
                                         iscrossdirection[num2]=False
                                     else:
                                         if iscrosspossible:
-                                            co_arr.append([x,y,color])
-                                            color = "green" if color=="yellow" else "yellow"
+                                            if colornum>len(colorli)-1:
+                                                colornum=0
+                                            co_arr.append([x,y,colorli[colornum]])
+                                            colornum+=1
                                             iscrossdirection[num2]=False
                                         else:
                                             iscrossdirection[num2]=False
                             if not innerexecuted:
-                                co_arr.append([x,y,color])
-                                color = "green" if color=="yellow" else "yellow"
+                                if colornum>len(colorli)-1:
+                                    colornum=0
+                                co_arr.append([x,y,colorli[colornum]])
+                                colornum+=1
         
 
                                 
