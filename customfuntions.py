@@ -1,3 +1,5 @@
+# from functions import scaleimage,displayimage,drawrect
+
 class chess:
     def __init__(self):
         self.squaresize = 70
@@ -172,3 +174,15 @@ class chess:
 
         targetareas = self.givetargetareas(co_arr)
         return targetareas
+    
+    def getregensoldieslist(self):
+        a = 120
+        b = 240
+        coordinates = []
+        for i in range(4):
+            a+=50
+            coordinates.append([a,b])
+            a+=10
+
+        
+        return coordinates

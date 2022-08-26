@@ -13,6 +13,7 @@ width = 750
 height = 600
 display = pygame.display.set_mode((width, height))
 squaresize = 70
+nooftroops = 16
 
 
 # loading all the images
@@ -90,6 +91,7 @@ def gameloop(timing=60):
     global alltrops
     global turn
 
+
     targetareas = []
     targettroop = None
     customs = chess()
@@ -97,31 +99,94 @@ def gameloop(timing=60):
     blackkilled = []
     whitekilled = []
 
+    regensoliders = [[whitecamel,whiteelephant,whitehorse,whitequeen],[blackcamel,blackelephant,blackhorse,blackqueen]]
+    regensoildersco = customs.getregensoldieslist()
+
+
     player1time,player2time = timing,timing
+    isnewtroopsselectionwindowopen = False
+
+    whichtroopreachedend = None
 
     pygame.time.set_timer(pygame.USEREVENT, 1000)
 
     while True:
-        # try:
+        # checking for the game over
+        loseplayer1 = True
+        loseplayer2 = True
+        if len(blackkilled)==nooftroops:
+            print("game over")
+
+        elif len(whitekilled)==nooftroops:
+            print("game over")
+        
+        for index,data in enumerate(alltrops):
+            if data["name"]==whiteking:
+                loseplayer1=False
+            elif data["name"]==blackking:
+                loseplayer2=False
+        loseplayer1 and print("player1 lose")
+        loseplayer2 and print("player2 lose")
+        player1time<1 and print("player1 lose")
+        player2time<1 and print("player2 lose")
+
+
+        
+        
+
+
         for e in pygame.event.get():
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
+                    isnewtroopsselectionwindowopen =False
+                    # alltrops[targettroop].update({
+                    #     "name":whitecamel
+                    # })
             if e.type == pygame.USEREVENT:
-                if turn == "whiteplayer":
-                    player1time -= 1
-                else:
-                    player2time -= 1
+                if not isnewtroopsselectionwindowopen:
+                    if turn == "whiteplayer":
+                        player1time -= 1
+                    else:
+                        player2time -= 1
             if e.type == pygame.QUIT:
                 quit()
             if e.type == pygame.MOUSEBUTTONDOWN:
                 moux, mouy = pygame.mouse.get_pos()
+                # num = 0 if turn=="whiteplayer" else 1
+                if isnewtroopsselectionwindowopen:
+                    for reindex,redata in enumerate(regensoildersco):
+                        print(redata)
+                        if moux>redata[0] and moux<redata[0]+squaresize and mouy>redata[1] and mouy<redata[1]+squaresize:
+                            for reindex2,redata2 in enumerate(alltrops):
+                                if redata2["x"]==whichtroopreachedend["x"] and redata2["y"]==whichtroopreachedend["y"]:
+                                    num = 1 if turn=="whiteplayer" else 0
+                                    alltrops[reindex2].update({
+                                        "name":regensoliders[num][reindex]
+                                    })
+                                    isnewtroopsselectionwindowopen = False
+
+
+
+
                 running = False
                 for index, data in enumerate(targetareas):
                     if abs(data["x"]+squaresize/2-moux) < squaresize/2 and abs(data["y"]+squaresize/2-mouy) < squaresize/2:
                         # check this below if statement later on if any error related to movement occurs👇
                         if not data["x"] == alltrops[targettroop]["x"] or not data["y"] == alltrops[targettroop]["y"]:
+                                    # print("white one there on the top make sure to add new one instead of it else the person will express hey there what is happening with me....")
                             alltrops[targettroop].update({
                                 "x": data["x"],
                                 "y": data["y"]
                             })
+
+                            if alltrops[targettroop]["y"]==20 or alltrops[targettroop]["y"]==510:
+                                # print("reacted the end")
+                                print(alltrops[targettroop])
+                                if alltrops[targettroop]["name"]==whitesoldier or alltrops[targettroop]["name"]==blacksoldier:
+                                    isnewtroopsselectionwindowopen = True
+                                    whichtroopreachedend = {"x":alltrops[targettroop]["x"],"y":alltrops[targettroop]["y"]}
+
+
                             if alltrops[targettroop]["firstmove"]:
                                 alltrops[targettroop].update(
                                     {"firstmove": False})
@@ -151,53 +216,56 @@ def gameloop(timing=60):
                                 if abs(data2["x"]+squaresize/2-moux) < squaresize/2 and abs(data2["y"]+squaresize/2-mouy) < squaresize/2:
 
                                     # if white troops player turn then it will be executed
-                                    if turn == "whiteplayer":
+                                    if not isnewtroopsselectionwindowopen:
+                                        if turn == "whiteplayer":
 
-                                        if data["name"] == whitesoldier:
-                                            cross1, cross2 = customs.issoldiercrossavai(
-                                                alltrops, "black", data["x"], data["y"], 2, 2, "up")
-                                            targetareas = customs.junction(index, boxco, alltrops, True, False, 3 if data["firstmove"] else 2, 0, 0, 0, True, [
-                                                                           cross1, cross2, 0, 0], "white", "soldier", "up")
+                                            if data["name"] == whitesoldier:
+                                                cross1, cross2 = customs.issoldiercrossavai(
+                                                    alltrops, "black", data["x"], data["y"], 2, 2, "up")
+                                                targetareas = customs.junction(index, boxco, alltrops, True, False, 3 if data["firstmove"] else 2, 0, 0, 0, True, [
+                                                                            cross1, cross2, 0, 0], "white", "soldier", "up")
 
-                                        elif data["name"] == whiteelephant:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
-                                                                           0, 0, 0, 0], "white", "elephant", "up")
-                                        elif data["name"] == whitequeen:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
-                                                                           8, 8, 8, 8], "white", "elephant", "up")
-                                        elif data["name"] == whiteking:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 2, 2, 2, 2, True, [
-                                                                           2, 2, 2, 2], "white", "elephant", "up")
-                                        elif data["name"] == whitecamel:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 0, 0, 0, 0, True, [
-                                                                           8, 8, 8, 8], "white", "elephant", "up")
+                                            elif data["name"] == whiteelephant:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
+                                                                            0, 0, 0, 0], "white", "elephant", "up")
+                                            elif data["name"] == whitequeen:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
+                                                                            8, 8, 8, 8], "white", "elephant", "up")
+                                            elif data["name"] == whiteking:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 2, 2, 2, 2, True, [
+                                                                            2, 2, 2, 2], "white", "elephant", "up")
+                                            elif data["name"] == whitecamel:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 0, 0, 0, 0, True, [
+                                                                            8, 8, 8, 8], "white", "elephant", "up")
 
-                                        elif data["name"] == whitehorse:
-                                            targetareas = customs.horsetargetarea(
-                                                alltrops, index, "black")
+                                            elif data["name"] == whitehorse:
+                                                targetareas = customs.horsetargetarea(
+                                                    alltrops, index, "black")
 
-                                    if turn == "blackplayer":
-                                        if data["name"] == blacksoldier:
-                                            cross1, cross2 = customs.issoldiercrossavai(
-                                                alltrops, "white", data["x"], data["y"], 2, 2, "down")
-                                            targetareas = customs.junction(index, boxco, alltrops, True, False, 0, 3 if data["firstmove"] else 2, 0, 0, True, [
-                                                                           0, 0, cross1, cross2], "black", "soldier", "down")
+                                        if turn == "blackplayer":
+                                            if data["name"] == blacksoldier:
+                                                cross1, cross2 = customs.issoldiercrossavai(
+                                                    alltrops, "white", data["x"], data["y"], 2, 2, "down")
+                                                targetareas = customs.junction(index, boxco, alltrops, True, False, 0, 3 if data["firstmove"] else 2, 0, 0, True, [
+                                                                            0, 0, cross1, cross2], "black", "soldier", "down")
 
-                                        elif data["name"] == blackelephant:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
-                                                                           0, 0, 0, 0], "black", "elephant", "up")
-                                        elif data["name"] == blackqueen:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
-                                                                           8, 8, 8, 8], "black", "elephant", "up")
-                                        elif data["name"] == blackking:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 2, 2, 2, 2, True, [
-                                                                           2, 2, 2, 2], "black", "elephant", "up")
-                                        elif data["name"] == blackcamel:
-                                            targetareas = customs.junction(index, boxco, alltrops, True, True, 0, 0, 0, 0, True, [
-                                                                           8, 8, 8, 8], "black", "elephant", "up")
-                                        elif data["name"] == blackhorse:
-                                            targetareas = customs.horsetargetarea(
-                                                alltrops, index, "white")
+                                            elif data["name"] == blackelephant:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
+                                                                            0, 0, 0, 0], "black", "elephant", "up")
+                                            elif data["name"] == blackqueen:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 8, 8, 8, 8, True, [
+                                                                            8, 8, 8, 8], "black", "elephant", "up")
+                                            elif data["name"] == blackking:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 2, 2, 2, 2, True, [
+                                                                            2, 2, 2, 2], "black", "elephant", "up")
+                                            elif data["name"] == blackcamel:
+                                                targetareas = customs.junction(index, boxco, alltrops, True, True, 0, 0, 0, 0, True, [
+                                                                            8, 8, 8, 8], "black", "elephant", "up")
+                                            elif data["name"] == blackhorse:
+                                                targetareas = customs.horsetargetarea(
+                                                    alltrops, index, "white")
+                        
+                    
 
         display.fill((196, 147, 143))
 
@@ -246,9 +314,25 @@ def gameloop(timing=60):
         displaytext(display, f"{player2time}", width -
                     114, 250, 40, "black", True, True)
 
+        drawrect(display,"red",10,510,20,20,0)
+
+        if isnewtroopsselectionwindowopen:
+            size = 60
+            num = 1 if turn=="whiteplayer" else 0
+            li = regensoliders[num]
+            drawrect(display,"purple",100,100,400,400,0)
+            for index,data in enumerate(regensoildersco):
+                img = scaleimage(li[index],size,size)
+                displayimage(display,img,data[0],data[1])
+
+
+
+
         pygame.display.update()
         # except Exception as e:
         #     print(e)
 
 
-gameloop(60)
+
+gameloop(10)
+
