@@ -75,7 +75,7 @@ class chess:
                 count-3
             x = troopslist[index]["x"]-num1*self.squaresize if i==0 or i==2 else  troopslist[index]["x"]+num1*self.squaresize
             y = troopslist[index]["y"]-num2*self.squaresize if i ==0 or i==1 else troopslist[index]["y"]+num2*self.squaresize
-            
+
             for index1,data in enumerate(troopslist):
                 if data["x"]==x and data["y"]==y:
                     innerexecuted = True
@@ -94,11 +94,11 @@ class chess:
 
     # give the target area for all leftng the camel
     def junction(self,index=0,boxco=[],alltrops=[],isstraightpossible=True,isstraighthitpossible=True,forward=0,backward=0,leftward=0,rightward=0,iscrosspossible=False,crossdirection=[],type="white",name="soldier",direction=None):
-        color = "red"
+        # color = "red"
         global forover
         targetareas = []
         co_arr = []
-        co_arr.append([alltrops[index]["x"],alltrops[index]["y"],color])
+        co_arr.append([alltrops[index]["x"],alltrops[index]["y"],"red"])
         color="green"
         direction = [forward,backward,leftward,rightward]
         
@@ -123,13 +123,13 @@ class chess:
                                     else:
                                         if isstraighthitpossible:
                                             co_arr.append([x,y,color])
-                                            color = "green" if color=="red" else "red"
+                                            color = "green" if color=="yellow" else "yellow"
                                             isdirection[num]=False
                                         else:
                                             isdirection[num]=False
                             if not innerexecuted:
                                 co_arr.append([x,y,color])
-                                color = "green" if color=="red" else "red"
+                                color = "green" if color=="yellow" else "yellow"
         
 
         iscrossdirection = [True,True,True,True]
@@ -150,13 +150,13 @@ class chess:
                                     else:
                                         if iscrosspossible:
                                             co_arr.append([x,y,color])
-                                            color = "green" if color=="red" else "red"
+                                            color = "green" if color=="yellow" else "yellow"
                                             iscrossdirection[num2]=False
                                         else:
                                             iscrossdirection[num2]=False
                             if not innerexecuted:
                                 co_arr.append([x,y,color])
-                                color = "green" if color=="red" else "red"
+                                color = "green" if color=="yellow" else "yellow"
         
 
                                 

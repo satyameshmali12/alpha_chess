@@ -1,7 +1,7 @@
 import pygame
 import sys # to exit the game
 # custom imports
-from functions import displayimage, drawrect,loadimage
+from functions import displayimage,displaytext,drawrect,loadimage,scaleimage
 from initialtroopco import initialtroopco_ordinates
 # from customfuntions import getobj,junction
 from customfuntions import chess
@@ -9,7 +9,7 @@ from customfuntions import chess
 pygame.init() # initializing the window
 
 # declaring all the constant variables
-width = 600
+width = 750
 height = 600
 display = pygame.display.set_mode((width,height))
 squaresize = 70
@@ -87,9 +87,13 @@ def gameloop():
     global alltrops
     global turn
 
+
     targetareas = []
     targettroop = None
     customs = chess()
+
+    blackkilled = []
+    whitekilled = []
 
     while True:
         # try:
@@ -112,6 +116,10 @@ def gameloop():
                                 turn="whiteplayer" if turn=="blackplayer" else "blackplayer"
                                 running = True
                                 removalinex = customs.checkcollision(targettroop,alltrops)
+                                if removalinex:
+                                    alltrops[removalinex]["type"]=="black" and blackkilled.append(alltrops[removalinex])
+                                    alltrops[removalinex]["type"]=="white" and whitekilled.append(alltrops[removalinex])
+
                                 removalinex and alltrops.remove(alltrops[removalinex])
                                 break
                     targetareas.clear()
@@ -170,7 +178,7 @@ def gameloop():
                                                 
 
 
-            display.fill("white")
+            display.fill((196, 147, 143))
 
             # drawing the chess board
             drawrect(display,"black",17,17,width-34,height-34,3)
@@ -184,9 +192,34 @@ def gameloop():
             # displaying all the troops
             for index,data in enumerate(alltrops):
                 displayimage(display,data["name"],data["x"],data["y"])
+            
+            displaytext(display,"Player 1",width-150,height-50,30,black,True,True)
+            displaytext(display,"Player 2",width-150,30,30,black,True,True)
 
+            a = width-170
+            b = height-240
+            for index,data in enumerate(blackkilled):
+                if (index+1)%4==0:
+                    a = width-170
+                    b +=35
+                img = scaleimage(data["name"],40,40)
+                # displayimage()
+                displayimage(display,img,a,b)
+                a+=35
+            
+            a = width-170
+            b = 50
+            for index,data in enumerate(whitekilled):
+                if (index+1)%4==0:
+                    a = width-170
+                    b +=35
+                img = scaleimage(data["name"],40,40)
+                # displayimage()
+                displayimage(display,img,a,b)
+                a+=35
+                
 
-            drawrect(display,"red",10,600-50,10,10,0)
+            # drawrect(display,"red",10,600-50,10,10,0)
             pygame.display.update()
         # except Exception as e:
         #     print(e)
