@@ -126,6 +126,8 @@ def gameloop(timing=60):
 
     while True:
         try:
+
+
             # checking for the game over
             loseplayer1 = True
             loseplayer2 = True
@@ -144,11 +146,15 @@ def gameloop(timing=60):
             if loseplayer1 or loseplayer2:
                 gameover("Player1" if loseplayer2 else "Player2")
 
+
             
             
-
-
             for e in pygame.event.get():
+                heldkeys = pygame.key.get_pressed()
+                # press ctrl+q to leave the running chess match
+                if heldkeys[pygame.K_LCTRL] and heldkeys[pygame.K_q] or heldkeys[pygame.K_RCTRL] and heldkeys[pygame.K_q] :
+                    homescreen()
+
                 if e.type == pygame.USEREVENT:
                     if not isnewtroopsselectionwindowopen:
                         if turn == "whiteplayer":
@@ -412,7 +418,8 @@ def gameover(name):
 
 
 
-
+# Note press 👇
+# Press ctrl+q to leave the running chess match
 
 
 
@@ -424,7 +431,7 @@ def gameover(name):
 # Enjoy It,🎃
 homescreen()
 
-# If you find any kind of error please let us know we definitely improve it
+# If you find any kind of error please let us know we will definitely improve it.
 
 # Copyright ©️ by AJTAs 
 
