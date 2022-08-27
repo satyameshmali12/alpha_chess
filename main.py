@@ -16,6 +16,8 @@ squaresize = 70
 nooftroops = 16
 
 
+
+
 # loading all the images
 blackcamel = loadimage("assets/bB.png")
 blackking = loadimage("assets/bK.png")
@@ -30,6 +32,16 @@ whitehorse = loadimage("assets/wN.png")
 whitesoldier = loadimage("assets/wp.png")
 whitequeen = loadimage("assets/wQ.png")
 whiteelephant = loadimage("assets/wR.png")
+
+
+homeimg = scaleimage(loadimage("assets/charac.png"),450,350)
+icon = loadimage("assets/icon.webp")
+playbutton = scaleimage(loadimage("assets/play.png"),120,120)
+homebutton = scaleimage(loadimage("assets/homebutton.png"),120,120)
+gameoverimg = loadimage("assets/gameover.png")
+
+pygame.display.set_caption("Chess :- A Game For Champions")
+pygame.display.set_icon(icon)
 
 
 # declaring the colors
@@ -108,28 +120,28 @@ def gameloop(timing=60):
 
     whichtroopreachedend = None
 
+    # lose = None
+
     pygame.time.set_timer(pygame.USEREVENT, 1000)
 
     while True:
         # checking for the game over
         loseplayer1 = True
         loseplayer2 = True
-        if len(blackkilled)==nooftroops:
-            print("game over")
-
-        elif len(whitekilled)==nooftroops:
-            print("game over")
+        if len(blackkilled)==nooftroops or len(whitekilled)==nooftroops:
+            gameover("Player2" if len(whitekilled)==nooftroops else "Player1")
         
+        if player1time<1 or player2time<1:
+            gameover("Player2" if player1time<1 else "Player1")
+
         for index,data in enumerate(alltrops):
             if data["name"]==whiteking:
                 loseplayer1=False
             elif data["name"]==blackking:
                 loseplayer2=False
-        loseplayer1 and print("player1 lose")
-        loseplayer2 and print("player2 lose")
-        player1time<1 and print("player1 lose")
-        player2time<1 and print("player2 lose")
-
+            
+        if loseplayer1 or loseplayer2:
+            gameover("Player1" if loseplayer2 else "Player2")
 
         
         
@@ -333,6 +345,65 @@ def gameloop(timing=60):
         #     print(e)
 
 
+def homescreen():
+    time = 5
+    while True:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                quit()
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                moux,mouy = pygame.mouse.get_pos()
+                if moux>400 and moux<440 and mouy>170 and mouy<210:
+                    if time<60:
+                        time+=1
+                elif moux>280 and moux<320 and mouy>170 and mouy<210:
+                    if time>1:
+                        time-=1
+                elif moux>width/2-75 and moux<width/2-75+playbutton.get_width() and mouy>260 and mouy<260+playbutton.get_height():
+                    gameloop(time*60)
 
-gameloop(10)
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
+                    gameloop(time*60)
 
+        
+        display.fill((159, 225, 245))
+
+        displaytext(display,"Alpha Chess",width/2-150,10,60,"black",False,True)
+        displayimage(display,homeimg,width/2-homeimg.get_width()/2+150,height/2-100)
+        drawrect(display,"red",420,100,100,60,0)
+        displaytext(display,"Timing:-",250,120,50,"black",True,True)
+        displaytext(display,f"{time}m",440,120,50,"black",True,True)
+        displaytext(display,"+",400,170,80,"black",True,False)
+        displaytext(display,"-",280,170,100,"black",True,False)
+        
+        displayimage(display,playbutton,width/2-75,260)
+
+        pygame.display.update()
+
+
+# # homescreen()
+def gameover(name):
+    while True:
+        for e in pygame.event.get():
+            if e.type == pygame.QUIT:
+                quit()
+
+            if e.type == pygame.MOUSEBUTTONUP:
+                moux,mouy = pygame.mouse.get_pos()
+                if moux>width/2-homebutton.get_width()/2 and moux<width/2-homebutton.get_width()/2+homebutton.get_width() and mouy>150 and mouy<150+homebutton.get_height():
+                    homescreen()
+            
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_SPACE:
+                    homescreen()
+
+        display.fill((159, 225, 245))
+        displaytext(display,f"Congrats {name} Win",width/2-200,70,60,"black",False,False)
+        displayimage(display,gameoverimg,100,200)
+        displayimage(display,homebutton,width/2-homebutton.get_width()/2,150)
+        pygame.display.update()
+
+
+
+homescreen()
