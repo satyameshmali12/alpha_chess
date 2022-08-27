@@ -1,4 +1,5 @@
-# from functions import scaleimage,displayimage,drawrect
+
+
 
 class chess:
     def __init__(self):
@@ -12,16 +13,15 @@ class chess:
         }
         return obj
     # this function is used only in the case of the soldier
+    # whether the soldier cross moving is available
     def issoldiercrossavai(self,troopslist,oppenenttype,x,y,wscross1,wscross2,direction):
         cross1 = 0
         cross2 = 0
         ysquaresize = self.squaresize if direction == "up" else -self.squaresize
         for index4,data4 in enumerate(troopslist):
             if data4["x"]==x-ysquaresize and data4["y"]==y-ysquaresize and data4["type"]==oppenenttype:
-                print("executed")
                 cross1 = wscross1
             if data4["x"]==x+ysquaresize and data4["y"]==y-ysquaresize and data4["type"]==oppenenttype:
-                print("executed")
                 cross2 = wscross2
         
         return cross1,cross2
@@ -35,7 +35,6 @@ class chess:
         for index,data in enumerate(troopslist):
             if not index==targetnum:
                 if data["x"]==x and data["y"]==y and not data["type"]==troopslist[targetnum]["type"]:
-                    print("death happen please be quit for a minute or you can say even a second it's your choice hahahh.!!!")
                     removalindex=index
         
         return removalindex
@@ -175,7 +174,7 @@ class chess:
         targetareas = self.givetargetareas(co_arr)
         return targetareas
     
-    def getregensoldieslist(self):
+    def getregensoldierlist(self):
         a = 120
         b = 240
         coordinates = []
